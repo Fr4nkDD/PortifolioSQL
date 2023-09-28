@@ -1,0 +1,41 @@
+create table Person_F(
+id_p INTEGER, 
+dt_create DATE, 
+dt_halter DATE, 
+nm VARCHAR2(255), 
+dt_nascimento DATE, 
+n_cpf VARCHAR2(11), 
+qt_tall NUMBER(3,2));
+
+Alter table Person_F add constraint id_p_PK primary key (id_p);
+
+create table UF(
+id_e INTEGER, 
+dt_criacao DATE, 
+dt_halter DATE, 
+cd_uf_ibge NUMBER(2), 
+sg_uf VARCHAR2(2), 
+dsc VARCHAR2(255));
+
+create table city(
+id_e INTEGER, 
+dt_criacao DATE, 
+dt_halter DATE, 
+cd_city_ibge NUMBER(7),  
+dsc_city VARCHAR2(255));
+
+create table endereco(
+id_andress INTEGER, 
+dt_criacao DATE, 
+dt_halter DATE, 
+nr_seq INTEGER,
+nr_uf INTEGER,
+nr_municipio INTEGER,
+dsc_logradouro varchar(255),
+nr_endereço INTEGER,
+dsc_bairro VARCHAR2(255),
+cep number(8)
+);
+
+SELECT * FROM Person_F;
+SELECT * FROM UF;
