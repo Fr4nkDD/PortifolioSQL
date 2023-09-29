@@ -17,6 +17,22 @@ cd_uf_ibge NUMBER(2),
 sg_uf VARCHAR2(2), 
 dsc VARCHAR2(255));
 
+Alter table UF add constraint id_e_pk primary key (id_e);
+Alter table UF add constraint sg_uf_un unique (sg_uf);
+Alter table UF add constraint cd_uf_ibge_un unique (cd_uf_ibge);
+alter table UF modify(sg_uf not null,cd_uf_ibge not null);
+drop table UF;
+
+create table UF(
+id_e INTEGER constraint id_e_pk primary key, 
+dt_criacao DATE, 
+dt_halter DATE, 
+cd_uf_ibge NUMBER(2)not null constraint cd_uf_ibge_un unique, 
+sg_uf VARCHAR2(2)not null constraint sg_uf_un unique, 
+dsc VARCHAR2(255));
+
+
+
 create table city(
 id_e INTEGER, 
 dt_criacao DATE, 
