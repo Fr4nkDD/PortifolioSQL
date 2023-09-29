@@ -7,7 +7,19 @@ dt_nascimento DATE,
 n_cpf VARCHAR2(11), 
 qt_tall NUMBER(3,2));
 
-Alter table Person_F add constraint id_p_PK primary key (id_p);
+Alter table Person_F add constraint id_p_pk primary key (id_p);
+Alter table Person_F add constraint n_cpf_un unique (n_cpf);
+
+drop table Person_F;
+
+create table Person_F(
+id_p INTEGER constraint id_p_pk primary key, 
+dt_create DATE, 
+dt_halter DATE, 
+nm VARCHAR2(255), 
+dt_nascimento DATE, 
+n_cpf VARCHAR2(11)constraint n_cpf_un unique, 
+qt_tall NUMBER(3,2));
 
 create table UF(
 id_e INTEGER, 
@@ -21,6 +33,7 @@ Alter table UF add constraint id_e_pk primary key (id_e);
 Alter table UF add constraint sg_uf_un unique (sg_uf);
 Alter table UF add constraint cd_uf_ibge_un unique (cd_uf_ibge);
 alter table UF modify(sg_uf not null,cd_uf_ibge not null);
+
 drop table UF;
 
 create table UF(
@@ -40,11 +53,19 @@ dt_halter DATE,
 cd_city_ibge NUMBER(7),  
 dsc_city VARCHAR2(255));
 
-create table endereco(
-id_andress INTEGER, 
+create table city(
+id_e INTEGER constraint id_e_pk primary key, 
 dt_criacao DATE, 
 dt_halter DATE, 
-nr_seq INTEGER,
+cd_city_ibge NUMBER(7) not null constraint cd_city_ibge_un unique,  
+dsc_city VARCHAR2(255));
+
+
+create table endereco(
+id_andress INTEGER constraint id_andress_pk primary key, 
+dt_criacao DATE, 
+dt_halter DATE, 
+nr_seq INTEGER not null, constraint nr_seq_fk foreign key(nr_seq) references Person_f(id_p),
 nr_uf INTEGER,
 nr_municipio INTEGER,
 dsc_logradouro varchar(255),
@@ -52,6 +73,9 @@ nr_endereço INTEGER,
 dsc_bairro VARCHAR2(255),
 cep number(8)
 );
+
+
+
 
 SELECT * FROM Person_F;
 SELECT * FROM UF;
