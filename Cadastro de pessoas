@@ -7,19 +7,24 @@ dt_nascimento DATE,
 n_cpf VARCHAR2(11), 
 qt_tall NUMBER(3,2));
 
+
 Alter table Person_F add constraint id_p_pk primary key (id_p);
 Alter table Person_F add constraint n_cpf_un unique (n_cpf);
+alter table Person_F add gener varchar2(1); 
+alter table Person_F add  constraint gener_ck check(gener in('M','F','m','f'));
 
 drop table Person_F;
 
 create table Person_F(
-id_p INTEGER constraint id_p_pk primary key, 
-dt_create DATE, 
-dt_halter DATE, 
-nm VARCHAR2(255), 
-dt_nascimento DATE, 
-n_cpf VARCHAR2(11)constraint n_cpf_un unique, 
-qt_tall NUMBER(3,2));
+id_p integer constraint id_p_pk primary key, 
+dt_create date, 
+dt_halter date, 
+nm varchar2(255), 
+dt_nascimento date, 
+n_cpf varchar2(11)constraint n_cpf_un unique, 
+qt_tall number(3,2),
+gener varchar(1) constraint gener_ck check(gener in('M','F','m','f'))
+);
 
 create table UF(
 id_e INTEGER, 
@@ -53,8 +58,10 @@ dt_halter DATE,
 cd_city_ibge NUMBER(7),  
 dsc_city VARCHAR2(255));
 
+drop table city
+
 create table city(
-id_e INTEGER constraint id_e_pk primary key, 
+id_c INTEGER constraint id_c_pk primary key, 
 dt_criacao DATE, 
 dt_halter DATE, 
 cd_city_ibge NUMBER(7) not null constraint cd_city_ibge_un unique,  
@@ -67,15 +74,19 @@ dt_criacao DATE,
 dt_halter DATE, 
 nr_seq INTEGER not null, constraint nr_seq_fk foreign key(nr_seq) references Person_f(id_p),
 nr_uf INTEGER, constraint nr_uf_fk foreign key(nr_uf) references UF(id_e),
-nr_municipio INTEGER, constraint nr_municipio_fk foreign key(nr_municipio) references city(id_e),
+nr_municipio INTEGER, constraint nr_municipio_fk foreign key(nr_municipio) references city(id_c),
 dsc_logradouro varchar(255),
 nr_endereço INTEGER,
 dsc_bairro VARCHAR2(255),
 cep number(8)
 );
 
+drop table endereco
+
 
 
 
 SELECT * FROM Person_F;
 SELECT * FROM UF;
+SELECT * FROM city;
+SELECT * FROM endereco;
