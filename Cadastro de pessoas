@@ -1,4 +1,4 @@
-create table Person_F(
+ create table Person_F(
 id_p INTEGER, 
 dt_create DATE, 
 dt_halter DATE, 
@@ -67,6 +67,9 @@ dt_halter DATE,
 cd_city_ibge NUMBER(7) not null constraint cd_city_ibge_un unique,  
 dsc_city VARCHAR2(255));
 
+alter table city add cd_uf_ibge number(2);
+alter table city add constraint cd_uf_ibge_fk foreign key(cd_uf_ibge) references UF(cd_uf_ibge);
+
 
 create table endereco(
 id_andress INTEGER constraint id_andress_pk primary key, 
@@ -81,10 +84,29 @@ dsc_bairro VARCHAR2(255),
 cep number(8)
 );
 
-drop table endereco
+drop table endereco;
 
+create sequence Person_F_seq
+    start with 1
+    increment by 1
+    maxvalue 9999999
+    minvalue 1
+    nocache;
+    
+    create sequence UF_seq
+    start with 1
+    increment by 1
+    maxvalue 9999999
+    minvalue 1
+    nocache;
 
+insert into uf(id_e, dt_criacao, cd_uf_ibge, sg_uf, dsc)
+values(UF_seq.nextval, sysdate, 12, 'SC', 'Santa Catarina');
 
+insert into city(id_c, dt_criacao, cd_city_ibge, dsc_city)
+values(UF_seq.nextval, sysdate, 12, 'SC', 'Santa Catarina');
+
+commit
 
 SELECT * FROM Person_F;
 SELECT * FROM UF;
