@@ -1,3 +1,4 @@
+ -- criando  tabela Pessoa Física--
  create table Person_F(
 id_p INTEGER, 
 dt_create DATE, 
@@ -7,14 +8,17 @@ dt_nascimento DATE,
 n_cpf VARCHAR2(11), 
 qt_tall NUMBER(3,2));
 
-
+--Alterações na tabela pessoa fisica--
 Alter table Person_F add constraint id_p_pk primary key (id_p);
 Alter table Person_F add constraint n_cpf_un unique (n_cpf);
 alter table Person_F add gener varchar2(1); 
 alter table Person_F add  constraint gener_ck check(gener in('M','F','m','f'));
 
+--deletando tabela pessoa física--
 drop table Person_F;
 
+
+--Gerando table pessoa fisica completa--
 create table Person_F(
 id_p integer constraint id_p_pk primary key, 
 dt_create date, 
@@ -25,6 +29,7 @@ n_cpf varchar2(11)constraint n_cpf_un unique,
 qt_tall number(3,2),
 gener varchar(1) constraint gener_ck check(gener in('M','F','m','f'))
 );
+--criando table Estado--
 
 create table UF(
 id_e INTEGER, 
@@ -34,12 +39,18 @@ cd_uf_ibge NUMBER(2),
 sg_uf VARCHAR2(2), 
 dsc VARCHAR2(255));
 
+--Alterações ba tabela estado--
+
 Alter table UF add constraint id_e_pk primary key (id_e);
 Alter table UF add constraint sg_uf_un unique (sg_uf);
 Alter table UF add constraint cd_uf_ibge_un unique (cd_uf_ibge);
 alter table UF modify(sg_uf not null,cd_uf_ibge not null);
 
+--Deletando Tabela Estado--
+
 drop table UF;
+
+--Criando tabela estado completa--
 
 create table UF(
 id_e INTEGER constraint id_e_pk primary key, 
@@ -49,7 +60,7 @@ cd_uf_ibge NUMBER(2)not null constraint cd_uf_ibge_un unique,
 sg_uf VARCHAR2(2)not null constraint sg_uf_un unique, 
 dsc VARCHAR2(255));
 
-
+--criando tabela cidade--
 
 create table city(
 id_e INTEGER, 
@@ -58,7 +69,11 @@ dt_halter DATE,
 cd_city_ibge NUMBER(7),  
 dsc_city VARCHAR2(255));
 
+--Deletando tabela cidade--
+
 drop table city
+
+--Tabela cidade completa ccom alterações--
 
 create table city(
 id_c INTEGER constraint id_c_pk primary key, 
@@ -70,6 +85,9 @@ dsc_city VARCHAR2(255));
 alter table city add cd_uf_ibge number(2);
 alter table city add constraint cd_uf_ibge_fk foreign key(cd_uf_ibge) references UF(cd_uf_ibge);
 
+
+
+--Tabela endereço completa--
 
 create table endereco(
 id_andress INTEGER constraint id_andress_pk primary key, 
@@ -83,8 +101,10 @@ nr_endereço INTEGER,
 dsc_bairro VARCHAR2(255),
 cep number(8)
 );
-
+--Drop tabela endereço caso necessario--
 drop table endereco;
+
+--Sequences para gerar id de geração--
 
 create sequence Person_F_seq
     start with 1
@@ -99,16 +119,20 @@ create sequence Person_F_seq
     maxvalue 9999999
     minvalue 1
     nocache;
+    
+    create sequence city_seq
+    start with 1
+    increment by 1
+    maxvalue 9999999
+    minvalue 1
+    nocache;
+    
+--caso gere erro na primeira inserção, o ideal deve ser deletar a sequence e iniciala novamente--    
+    drop sequence city_seq;
+    
 
-insert into uf(id_e, dt_criacao, cd_uf_ibge, sg_uf, dsc)
-values(UF_seq.nextval, sysdate, 12, 'SC', 'Santa Catarina');
 
-insert into city(id_c, dt_criacao, cd_city_ibge, dsc_city)
-values(UF_seq.nextval, sysdate, 12, 'SC', 'Santa Catarina');
+
 
 commit
 
-SELECT * FROM Person_F;
-SELECT * FROM UF;
-SELECT * FROM city;
-SELECT * FROM endereco;
